@@ -1,4 +1,4 @@
-function addCarousel(obj) {
+function VikaSlider(obj) {
 	var instance = this;
 	instance.move = function(k, speed) {	
 		if (instance.animate == false) {	  
