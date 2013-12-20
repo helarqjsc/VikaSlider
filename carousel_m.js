@@ -19,9 +19,9 @@ function VikaSlider(obj) {
 		  j = Math.ceil(j / instance.pagediv);
 		  $('#dots-'+instance.id+' li').removeClass('active').eq(j).addClass('active');
 	  
-		  item_width = $('#carousel-'+instance.id+' .item:eq(0)').width()+mr; // ширина одного итема
-		  items_length = $('#carousel-'+instance.id+' .items .item').length; // количество итемов
-		  carousel_width = $('#carousel-'+instance.id).width(); // ширина карусели
+		  item_width = $('#carousel-'+instance.id+' .item:eq(0)').width()+mr; 
+		  items_length = $('#carousel-'+instance.id+' .items .item').length;
+		  carousel_width = $('#carousel-'+instance.id).width();
 
 		if (instance.stop_on_first == true) {
 			leftm = (carousel_width - $('.carousel-left-'+instance.id).width()) / 2 + instance.left;   	  	    	 	
