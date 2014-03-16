@@ -1,6 +1,6 @@
 function VikaSlider(obj) {
 	var instance = this;
-	instance.move = function(k, speed) {	
+	instance.move = function(k, speed, ind) {	
 		if (instance.animate == false) {	  
 		  instance.animate = true;	  
 		  max = $('#carousel-'+instance.id+' .items .item').length;
@@ -12,8 +12,12 @@ function VikaSlider(obj) {
 		  if (instance.pos >= instance.length) { $('#buttons-'+instance.id+' .next').addClass('no'); }
 		  if (instance.pos > 1) { $('#buttons-'+instance.id+' .prev').removeClass('no'); }
 		  mr = $('#carousel-'+instance.id+' .item:eq(0)').css('margin-right');  
-		  mr = mr.replace('px', '')*1;  
-		  $('#carousel-'+instance.id+' .item').removeClass('active').eq(instance.pos - 1).addClass('active');
+		  mr = mr.replace('px', '')*1; 
+
+		  if (ind == null)
+	  		ind = instance.pos - 1;	  
+	  
+	  	$('#carousel-'+instance.id+' .item').removeClass('active').eq(ind).addClass('active'); 
 		  left = ($('#carousel-'+instance.id+' .item:eq(0)').width()+mr) * (instance.pos - 1);  
 		  j = instance.pos - 1;
 		  j = Math.ceil(j / instance.pagediv);
@@ -29,18 +33,21 @@ function VikaSlider(obj) {
 		}
 
 		if (instance.stop_on_end == true) {
-			leftx = $('.carousel-left-'+instance.id).width() + ((carousel_width - $('.carousel-left-'+instance.id).width()) / 2) - item_width*(items_length) + mr;
+			leftx = $('.carousel-left-'+instance.id).width() + ((carousel_width - $('.carousel-left-'+instance.id).width()) / 2) - item_width*(items_length) - 10; // or + mr
 			leftx = -leftx;     				
 			if (left > leftx) left = leftx;
 		}
-
-		  $('#carousel-'+instance.id+' .items').animate({'margin-left' : -left}, speed, function() {
-		  	instance.id = $(this).parent().data('carousel');	  	
+		if (instance._move == true) {
+	  	$('#carousel-'+instance.id+' .items').animate({'margin-left' : -left}, speed, function() {
+		  	instance.id = $(this).parent().data('carousel');	 
 		  	instance.animate = false;
-		  });
-		 }
+	  	});
+  	}else{ 	
+  		instance.animate = false;
+  	}
+		}
 	}
-
+	
 	instance.resize = function() {	
 		$('#carousel-'+instance.id+' .items').css('left', 0);	
 		$('#carousel-'+instance.id+' .items').css('margin-left', 0);
@@ -76,6 +83,9 @@ function VikaSlider(obj) {
 	if (obj['speed_mult'] == null)
 		instance.speedmult = false;	
 
+	if (obj['move'] == null)
+		instance._move = true;	
+
 	if (obj['length'] == null)
 		instance.length = $('#carousel-'+instance.id+' .items .item').length;
 	
@@ -91,6 +101,8 @@ function VikaSlider(obj) {
 				$('#dots-'+instance.id).append('<li></li>');
 			}		
 		});
+		if (a > 0) 
+			$('#dots-'+i).append('<li></li>');		
 	}
 
 	$('#dots-'+instance.id+' li').click(function() {		
