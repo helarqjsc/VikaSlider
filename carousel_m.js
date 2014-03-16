@@ -64,12 +64,7 @@ function VikaSlider(obj) {
     $('#carousel-' + instance.id + ' .items').css('left', a - b + z);
     instance.move(0, 0);
   }
-  instance.init = function () {
-    $(window).resize(function () {
-      instance.resize();
-    });
-    instance.resize();
-  }
+
   instance.id = obj['id'];
   instance.pos = 1;
   instance.animate = false;
@@ -155,4 +150,9 @@ function VikaSlider(obj) {
     instance.move(1, instance.speed);
   });
   $('#buttons-' + instance.id + ' .prev').addClass('no');
+
+  $(window).resize(function () {
+    instance.resize();
+  });
+  instance.resize();
 }
